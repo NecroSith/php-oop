@@ -1,6 +1,6 @@
 <?php 
 
-class Robot {
+/*class Robot {
 	public $name;
 	public $age;
 	public $goal;
@@ -20,7 +20,15 @@ class Robot {
 }
 
 $robot1 = new Robot('Bobo', '15', 'partymaker', '200');
-$robot1->report();
+$robot1->report();*/
+
+$db = new PDO('mysql:host=localhost;dbname=films', 'root', '');
+
+$sql = "SELECT * FROM films";
+
+$result = $db->query($sql);
+
+print_r($result->fetch(PDO::FETCH_ASSOC));
 
 
  ?>
