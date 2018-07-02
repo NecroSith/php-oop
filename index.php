@@ -28,7 +28,26 @@ $sql = "SELECT * FROM films";
 
 $result = $db->query($sql);
 
-print_r($result->fetch(PDO::FETCH_ASSOC));
+// print_r($result->fetch(PDO::FETCH_ASSOC));
 
+// $films = $result->fetchAll(PDO::FETCH_ASSOC);
+
+// foreach ($films as $film) {
+// 	echo "Название фильма: " . $film['name'];
+// 	echo "Жанр фильма: " . $film['genre'];
+// }
+
+$result->bindColumn('id', $id);
+$result->bindColumn('name', $name);
+$result->bindColumn('genre', $genre);
+$result->bindColumn('year', $year);
+
+while ($film = $result->fetch(PDO::FETCH_ASSOC)) {
+	echo "ID: {$id} <br>" ;
+	echo "Название: {$name} <br>" ;
+	echo "Жанр: {$genre} <br>" ;
+	echo "Год: {$year} <br>" ;
+	echo "<br> <br>";
+}
 
  ?>
