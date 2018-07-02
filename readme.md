@@ -91,7 +91,7 @@ $stmt->execute();
 ```
 ##### или 
 ```php
-$smtm->execute(array(':username' => $username, ':password' => $password));
+$stmt->execute(array(':username' => $username, ':password' => $password));
 
 $stmt->bindColumn('login', $login);
 $stmt->bindColumn('password', $pass);
@@ -129,4 +129,45 @@ echo "Пароль: {$pass} <br>" ;
 ```php
 $username = htmlentities($username);
 $password = htmlentities($password);
+```
+### Вставка данных в БД
+```php
+$sql = "INSERT INTO loginData (login, password) VALUES (:name, :pass)";
+$stmt = $db->prepare($sql);
+
+$username = "hacker";
+$password = "11235";
+
+$stmt->bindValue(':name', $username);
+$stmt->bindValue(':pass', $password);
+$stmt->execute();
+
+// echo "ID вставленной записи: " . $db->lastInsertId();
+```
+### Обновление данных в БД
+```php
+$sql = "UPDATE loginData SET login = :name WHERE id = :id";
+$stmt = $db->prepare($sql);
+
+$username = "V";
+$id = "1";
+
+$stmt->bindValue(':name', $username);
+$stmt->bindValue(':id', $id);
+$stmt->execute();
+
+echo "Было затронуто строк: " . $stmt->rowCount();
+```
+### Удаление данных из БД
+```php
+$sql = "DELETE FROM films WHERE name = :name";
+$stmt = $db->prepare($sql);
+
+$title = "Аватар";
+
+$stmt->bindValue(':name', $title);
+
+$stmt->execute();
+
+echo "Было затронуто строк: " . $stmt->rowCount();
 ```

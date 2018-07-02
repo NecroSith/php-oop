@@ -97,29 +97,70 @@ $robot1->report();*/
 // echo "Имя пользователя: {$login} <br>" ;
 // echo "Пароль: {$pass} <br>" ;
 
-$db = new PDO('mysql:host=localhost;dbname=films', 'root', '');
+// $db = new PDO('mysql:host=localhost;dbname=films', 'root', '');
 
-$sql = "SELECT * FROM loginData WHERE login = ? AND password = ? LIMIT 1";
-$stmt = $db->prepare($sql);
+// $sql = "SELECT * FROM loginData WHERE login = ? AND password = ? LIMIT 1";
+// $stmt = $db->prepare($sql);
 
-$username = 'admin';
-$password = '666';
+// $username = 'admin';
+// $password = '666';
 
-$username = htmlentities($username);
-$password = htmlentities($password);
+// $username = htmlentities($username);
+// $password = htmlentities($password);
 
-$stmt->bindValue(1, $username);
-$stmt->bindValue(2, $password);
-$stmt->execute();
+// $stmt->bindValue(1, $username);
+// $stmt->bindValue(2, $password);
+// $stmt->execute();
 
 //$stmt->execute(array($username, $password));
 
-$stmt->bindColumn('login', $login);
-$stmt->bindColumn('password', $pass);
+// $stmt->bindColumn('login', $login);
+// $stmt->bindColumn('password', $pass);
 
-$stmt->fetch();
+// $stmt->fetch();
 
-echo "Имя пользователя: {$login} <br>" ;
-echo "Пароль: {$pass} <br>" ;
+// echo "Имя пользователя: {$login} <br>" ;
+// echo "Пароль: {$pass} <br>" ;
+
+// $db = new PDO('mysql:host=localhost;dbname=films', 'root', '');
+
+// $sql = "INSERT INTO loginData (login, password) VALUES (:name, :pass)";
+// $stmt = $db->prepare($sql);
+
+// $username = "hacker";
+// $password = "11235";
+
+// $stmt->bindValue(':name', $username);
+// $stmt->bindValue(':pass', $password);
+// $stmt->execute();
+
+// echo "ID вставленной записи: " . $db->lastInsertId();
+
+// $db = new PDO('mysql:host=localhost;dbname=films', 'root', '');
+
+// $sql = "UPDATE loginData SET login = :name WHERE id = :id";
+// $stmt = $db->prepare($sql);
+
+// $username = "V";
+// $id = "1";
+
+// $stmt->bindValue(':name', $username);
+// $stmt->bindValue(':id', $id);
+// $stmt->execute();
+
+// echo "Было затронуто строк: " . $stmt->rowCount();
+
+$db = new PDO('mysql:host=localhost;dbname=films', 'root', '');
+
+$sql = "DELETE FROM films WHERE name = :name";
+$stmt = $db->prepare($sql);
+
+$title = "Аватар";
+
+$stmt->bindValue(':name', $title);
+
+$stmt->execute();
+
+echo "Было затронуто строк: " . $stmt->rowCount();
 
  ?>
