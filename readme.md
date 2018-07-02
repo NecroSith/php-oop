@@ -20,7 +20,7 @@ while ($film = $result->fetch(PDO::FETCH_ASSOC)) {
 	echo "Жанр фильма: " . $films['genre'];
 }
 ```
-## Получение сразу всех записей 
+### Получение сразу всех записей 
 ```php
 $films = $result->fetchAll(PDO::FETCH_ASSOC);
 
@@ -43,4 +43,90 @@ while ($film = $result->fetch(PDO::FETCH_ASSOC)) {
 	echo "Год: {$year} <br>" ;
 	echo "<br> <br>";
 }
+```
+### Выборка записей без защиты от SQL инъекций
+```php
+$username = 'admin';
+$password = '666';
+
+$sql = "SELECT * FROM loginData WHERE login = '{$username}' AND password = '{$password}' LIMIT 1";
+$result = $db->query($sql);
+
+// print_r($result->fetch(PDO::FETCH_ASSOC));
+
+if ($result->rowCount() == 1) {
+	$user = $result->fetch(PDO::FETCH_ASSOC);
+	echo "Имя пользователя: {$user['login']} <br>" ;
+	echo "Пароль: {$user['password']} <br>" ;
+	echo "<br> <br>";
+```
+### Выборка записей с защитой от SQL инъекций в ручном режиме
+```php
+$username = 'admin';
+$password = '666';
+
+$username = $db->quote($username);
+$username = strtr($username, array('_' => '_', '%' => '\%'))
+
+$password = $db->quote($password);
+$passworde = strtr($password, array('_' => '_', '%' => '\%'))
+
+if ($result->rowCount() == 1) {
+	$user = $result->fetch(PDO::FETCH_ASSOC);
+	echo "Имя пользователя: {$user['login']} <br>" ;
+	echo "Пароль: {$user['password']} <br>" ;
+	echo "<br> <br>";
+```
+### Выборка записей с защитой от SQL инъекций в автоматическом режиме с плейсхолдерами
+```php
+$sql = "SELECT * FROM loginData WHERE login = :username AND password = :password LIMIT 1";
+$stmt = $db->prepare($sql);
+
+$username = 'admin';
+$password = '666';
+
+$stmt->bindValue(':username', $username);
+$stmt->bindValue(':password', $password);
+$stmt->execute();
+```
+##### или 
+```php
+$smtm->execute(array(':username' => $username, ':password' => $password));
+
+$stmt->bindColumn('login', $login);
+$stmt->bindColumn('password', $pass);
+
+$stmt->fetch();
+
+echo "Имя пользователя: {$login} <br>" ;
+echo "Пароль: {$pass} <br>" ;
+```
+### Выборка записей с защитой от SQL инъекций в автоматическом режиме через последовательность параметров
+```php
+$sql = "SELECT * FROM loginData WHERE login = ? AND password = ? LIMIT 1";
+$stmt = $db->prepare($sql);
+
+$username = 'admin';
+$password = '666';
+
+$stmt->bindValue(1, $username);
+$stmt->bindValue(2, $password);
+$stmt->execute();
+```
+##### или 
+```php
+$stmt->execute(array($username, $password));
+
+$stmt->bindColumn('login', $login);
+$stmt->bindColumn('password', $pass);
+
+$stmt->fetch();
+
+echo "Имя пользователя: {$login} <br>" ;
+echo "Пароль: {$pass} <br>" ;
+```
+### Защита от кросс-сайт скриптинга
+```php
+$username = htmlentities($username);
+$password = htmlentities($password);
 ```
