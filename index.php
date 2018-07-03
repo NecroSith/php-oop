@@ -10,15 +10,23 @@ require "db.php";
 
 // R::store($film);
 
-$films = R::find('films');
+// $films = R::find('films');
 
-foreach ($films as $film) {
-	print_r($film);
-	echo "Название: " . $film->name . "<br>";
-	echo "Жанр: " . $film->genre . "<br>";
-	echo "Год: " . $film->year . "<br>";
-	echo "Описание: " . $film->description . "<br>";
-}
+// foreach ($films as $film) {
+// 	print_r($film);
+// 	echo "Название: " . $film->name . "<br>";
+// 	echo "Жанр: " . $film->genre . "<br>";
+// 	echo "Год: " . $film->year . "<br>";
+// 	echo "Описание: " . $film->description . "<br>";
+// }
 
+// $film = R::load('films', 39);
+// $film->name = "Фокстрот 3";
+// $film->genre = "боевик";
+// $film->year = "2010";
+// R::store($film);
+
+$film = R::load('films', 39);
+R::trash($film);
 
  ?>
