@@ -19,5 +19,16 @@ $film->name = "Фокстрот 2";
 ### Запись данных в таблицу
 ```php
 R::store($film);
+```
+### Вывод записей из таблицы
+```php
+$films = R::find('films');
 
+foreach ($films as $film) {
+	print_r($film);
+	echo "Название: " . $film->name . "<br>";
+	echo "Жанр: " . $film->genre . "<br>";
+	echo "Год: " . $film->year . "<br>";
+	echo "Описание: " . $film->description . "<br>";
+}
 ```
